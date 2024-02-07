@@ -1,0 +1,12 @@
+.datepicker-container {
+    display: inline-block;
+    position: relative;
+}
+
+.date-picker {
+    width: 100%;
+     /* Adjust border styles as needed */
+    border-radius: 4px; /* Adjust border radius as needed */
+    padding: 8px; /* Adjust padding as needed */
+    box-sizing: border-box;
+}

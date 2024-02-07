@@ -1,0 +1,29 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    margin-top: 50px;
+    color: aliceblue;
+    gap: 7px;
+    font-size: 48px;
+    font-weight: 700;
+}
+.generate{
+    display: flex;
+    gap: 30px;
+    margin: 40px auto;
+}
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    color: #4c00b4;
+    background: #fff;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+}
