@@ -1,12 +1,39 @@
-.datepicker-container {
-    display: inline-block;
-    position: relative;
+.inputs{
+    margin-top: 55px;
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    gap: 20px;
+    
+    
+}
+.input1{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 53px;
+    background: #fafafa;
+    border-radius: 6px;
+    
+    
+}
+.input2{
+    padding-left: 60px;
+    
+}
+.input2 label{
+    padding-right:15px;
 }
 
-.date-picker {
-    width: 100%;
-     /* Adjust border styles as needed */
-    border-radius: 4px; /* Adjust border radius as needed */
-    padding: 8px; /* Adjust padding as needed */
-    box-sizing: border-box;
+.input1 input{
+    height: 50px;
+    width:400px;
+    border: 1px solid #797979;
+    border-radius: 5px;
+    outline: none;
+    color: #797979;
+    font-size: 19px;
+    padding-left: 10px;
+    margin-left: 10px;
 }

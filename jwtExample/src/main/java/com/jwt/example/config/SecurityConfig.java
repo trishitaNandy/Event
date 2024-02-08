@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,8 +47,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable())
-        		.cors(cors->cors.disable())
+        http.headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
+                .csrf(csrf -> csrf.disable())
+        		.cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth->auth.requestMatchers("/home/**")
                 		.authenticated()
                 		.requestMatchers("/event/**")
@@ -91,31 +93,7 @@ public class SecurityConfig {
 		};
      }
     
-   /* @Bean
-	public FilterRegistrationBean coresFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		
-		CorsConfiguration corsConfiguration=new CorsConfiguration();
-		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.addAllowedOriginPattern("*");
-		corsConfiguration.addAllowedHeader("Authorization");
-		corsConfiguration.addAllowedHeader("Content-Type");
-		corsConfiguration.addAllowedHeader("Accept");
-		corsConfiguration.addAllowedMethod("POST");
-		corsConfiguration.addAllowedMethod("GET");
-		corsConfiguration.addAllowedMethod("DELETE");
-		corsConfiguration.addAllowedMethod("PUT");
-		corsConfiguration.setMaxAge(3600L);
-		
-		source.registerCorsConfiguration("/**", corsConfiguration);
-		
-		//FilterRegistrationBean bean=new FilterRegistrationBean(new CorsFilter(source));
-		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-		
-		bean.setOrder(-110);
-		
-		return bean;
-	}*/
+
 
 }
 

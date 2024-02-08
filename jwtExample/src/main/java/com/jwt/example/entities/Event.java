@@ -1,5 +1,7 @@
 package com.jwt.example.entities;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 import jakarta.persistence.CascadeType;
@@ -30,9 +32,12 @@ public class Event {
 
 	    private String name;
 
-	    private Date date;
+	    //private Date date;
+		private LocalDate date;
 
-	    private String timing;
+    	private LocalTime timing;
+
+	    //private String timing;
 
 	    private String venue;
 

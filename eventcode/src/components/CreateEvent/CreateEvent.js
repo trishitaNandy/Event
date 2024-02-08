@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import dayjs from 'dayjs';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
 import user_icon from '../Assets/person.png';
@@ -12,6 +13,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers';
+import './CreateEvent.css'
 
 //const CREATE_URL="/event/create/{userId}"
 
@@ -62,6 +64,7 @@ const CreateEvent = () => {
 
 
     const errRef=useRef();
+    const userRef=useRef();
 
     const [name,setName]=useState('');
     const [nameFocus,setNameFocus]=useState(false);
@@ -78,37 +81,48 @@ const CreateEvent = () => {
     const [errMsg,setErrMsg]=useState('');
 
     useEffect(() => {
+        userRef.current.focus();
+    }, [])
+
+   
         if (!currentToken) {
             navigate("/login")
-            console.error('Access token not found in local storage');
+            console.error('Token not found in local storage');
         }
-    }, [currentToken, navigate]);
+    
 
-    
-    
 
     const handleSubmit=async(e)=>{
         e.preventDefault();
         //console.log("Event created")
         try{
+            const formattedDate = dayjs(date).format('YYYY-MM-DD'); // Format date as 'YYYY-MM-DD'
+            const formattedTime = dayjs(time).format('HH:mm:ss');
+
+            console.log("Name:", name);
+            console.log("Formatted Date:", formattedDate);
+            console.log("Formatted Time:", formattedTime);
+            console.log("Venue:", venue);
+
             const response=await axios.post(CREATE_URL,
-                JSON.stringify({name: name,date:date, timing: time, venue: venue }),
+                JSON.stringify({name: name,date:formattedDate, timing: formattedTime, venue: venue }),
                 {
                     headers: {
                         'Authorization': `Bearer ${currentToken}`,
+                        'Content-Type': 'application/json'
                       },
+                      
                 }
                 
             );
+            
             console.log(response.data);
-            //console.log(response.access);
-            //console.log(response.refresh);
-            console.log(JSON.stringify(response))
             
             //clear input field
         } catch(err){
             if(!err?.response){
                 setErrMsg('No Server Response');
+                console.log(err)
             }else if(err.response?.status===409){
                 setErrMsg('Username taken');
             }else{
@@ -132,13 +146,15 @@ const CreateEvent = () => {
                 <div className='underline'></div>
             </div>
             <div className='inputs'>
-                <div className='input'>
+                <div className='input1'>
                     <label htmlFor='name'>
                         Event:
                     </label>
+                    
                     <input 
                         type="text" 
                         id="name"
+                        ref={userRef}
                         autoComplete="off"
                         onChange={(e) => setName(e.target.value)}
                         value={name}
@@ -147,42 +163,48 @@ const CreateEvent = () => {
                         onBlur={() => setNameFocus(false)}
                         placeholder='Name' 
                     />
+                    
                 </div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <div className='input'>
+                    <div className='input2'>
                         <label htmlFor='date'>Date:</label>
-                        <div className='datepicker-container'>
+                        
                             <DatePicker 
                                 id="date"
+                                ref={userRef}
                                 value={date}
                                 onChange={(newValue) => setDate(newValue)}
                                 renderInput={(params) => <input {...params} />}
                             />
-                        </div>
+                        
                     </div>
                 
 
-                    <div className='input'>
+                    <div className='input2'>
                     
                         <label htmlFor='time'>Time:</label>
+                        
                         <TimePicker
                             id="time"
+                            ref={userRef}
                             value={time}
                             onChange={(newValue) => setTime(newValue)}
                             renderInput={(params) => <input {...params} />}
 
                         />
+                        
                     
                         
                     </div>
                 </LocalizationProvider>
-                <div className='input'>
+                <div className='input1'>
                     <label htmlFor='venue'>
                         Venue:
                     </label>
                     <input 
                         type="text" 
                         id="venue"
+                        ref={userRef}
                         autoComplete="off"
                         onChange={(e) => setVenue(e.target.value)}
                         value={venue}
